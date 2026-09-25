@@ -7,7 +7,7 @@
   var VERSION = '2.0.0-own';
   // Host your plugin folder with GitHub Pages (or jsDelivr).
   // Example: https://USERNAME.github.io/REPO/plugin/
-  var HOST = 'https://YOUR-USERNAME.github.io/YOUR-REPO/plugin/';
+  var HOST = 'https://andrey3269.github.io/lampa-own-plugin/plugin/';
 
   // Вспомогательная функция из вашего старого кода для безопасного выполнения
   function safe(fn) {
