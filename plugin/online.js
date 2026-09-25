@@ -94,8 +94,9 @@
   // Put your Vercel API first and Yandex API second. Keep the /api/ suffix on Vercel.
   // Yandex API Gateway should point directly to the function routes, so its URL ends with /.
   var MY_API_SERVERS = [
-    'https://lampa-own-stack.vercel.app/api/',
-    'https://YOUR-YANDEX-API-GATEWAY.example/'
+    'https://lampa-own-stack.vercel.app/api/'
+    // После создания Yandex API добавь второй адрес сюда:
+    // 'https://YOUR-API-GATEWAY.apigw.yandexcloud.net/'
   ];
 
   function normalizeApiBase(url) {
@@ -103,8 +104,10 @@
     return url.charAt(url.length - 1) === '/' ? url : url + '/';
   }
 
-  MY_API_SERVERS = MY_API_SERVERS.map(normalizeApiBase);
+  MY_API_SERVERS = MY_API_SERVERS.filter(function(url) { return !!String(url || '').trim(); }).map(normalizeApiBase);
+  if (!MY_API_SERVERS.length) MY_API_SERVERS = ['https://lampa-own-stack.vercel.app/api/'];
   var MY_API = MY_API_SERVERS[0];
+  var Z01_FALLBACK = MY_API_SERVERS[0];
 
   function ownPing(url, callback) {
     var xhr = new XMLHttpRequest();
@@ -148,16 +151,17 @@
     Defined.localhost = server;
   });
 
-  // Живой бесплатный сервер держим отдельно: он нужен и как запасной аэродром,
-  // если премиум откажет.
-  var Z01_FREE = Z01_FALLBACK;
+  // В собственной сборке нет отдельного Z01-сервера.
+  // Бесплатный/резервный backend выбирается только из MY_API_SERVERS.
+  var Z01_FREE = MY_API;
 
-  // Асинхронно подменяем localhost на выбранный сервер.
-  // Если к этому моменту уже активирован премиум (zpremActivate поставил
-  // prem.z01.online) — ничего не трогаем.
+  function z01PickServer(callback) {
+    pickOwnServer(callback);
+  }
+
   z01PickServer(function(server) {
     Z01_FREE = server;
-    if (Defined.localhost === Z01_FALLBACK) Defined.localhost = server;
+    Defined.localhost = server;
   });
 
   // Премиум-сервер спрашивает аккаунт Лампы. Вышел человек из аккаунта — и
