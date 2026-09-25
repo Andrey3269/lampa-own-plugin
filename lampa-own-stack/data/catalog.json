@@ -1,0 +1,18 @@
+[
+  {
+    "id": "demo-bbb",
+    "title": "Big Buck Bunny",
+    "originalTitle": "Big Buck Bunny",
+    "year": 2008,
+    "type": "movie",
+    "providers": [
+      {
+        "id": "own",
+        "name": "Мой источник",
+        "voice": "Original",
+        "quality": "1080p",
+        "stream": "https://storage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+      }
+    ]
+  }
+]

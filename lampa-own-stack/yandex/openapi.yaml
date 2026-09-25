@@ -1,0 +1,30 @@
+openapi: 3.0.0
+info:
+  title: Lampa Own API
+  version: 1.0.0
+paths:
+  /health:
+    get:
+      x-yc-apigateway-integration:
+        type: cloud_functions
+        function_id: YOUR_FUNCTION_ID
+        service_account_id: YOUR_SERVICE_ACCOUNT_ID
+        payload_format_version: '1.0'
+      responses:
+        '200':
+          description: OK
+  /lite/{path+}:
+    get:
+      parameters:
+        - name: path
+          in: path
+          required: true
+          schema: { type: string }
+      x-yc-apigateway-integration:
+        type: cloud_functions
+        function_id: YOUR_FUNCTION_ID
+        service_account_id: YOUR_SERVICE_ACCOUNT_ID
+        payload_format_version: '1.0'
+      responses:
+        '200':
+          description: OK
